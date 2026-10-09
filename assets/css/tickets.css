@@ -1,0 +1,620 @@
+/* =========================================================
+   MIAUFEST · Componente de compra de entradas
+   Estilo neo-brutalista (mismo sistema que Cool Cats):
+   bordes gruesos, sombras duras sin desenfoque y colores planos.
+   CSS puro: variables, flexbox y media queries.
+   ========================================================= */
+
+/* ---------- 1. VARIABLES ---------- */
+:root {
+    /* Colores de acento */
+
+    --green: #3ddc97;
+    --red: #e63946;
+
+    /* Base */
+    --surface-2: rgb(63, 63, 239, 0.15);
+
+    /* Firma neo-brutalista */
+    --border: 3px solid var(--blue);
+    --shadow-sm: 4px 4px 0 var(--blue);
+    --shadow: 6px 6px 0 var(--blue);
+    --shadow-lg: 10px 10px 0 var(--blue);
+
+    --font-display: "Archivo Black", "Arial Black", Impact, sans-serif;
+    --font-body: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+
+    --radius: 8px;
+    --speed: 0.2s;
+}
+
+/* ---------- 2. BASE ---------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+button,
+input {
+    font: inherit;
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 3px dashed var(--blue);
+    outline-offset: 3px;
+}
+
+.pagina {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+}
+.back-page {
+    margin-bottom: 25px;
+}
+/* ---------- 3. CABECERA ---------- */
+.cabecera {
+    position: relative;
+    margin-bottom: 2.5rem;
+    padding: 2rem;
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+}
+
+.cabecera .hero-content {
+    display: flex;
+    gap: 5%;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.cabecera .hero-content .image-content img {
+    width: 100%;
+}
+
+.cabecera .hero-content h1 {
+    margin: 0;
+    line-height: normal;
+    font-size: 0;
+}
+
+.cabecera .hero-content .info-fest {
+    width: 70%;
+    color: var(--purple);
+    text-align: center;
+}
+
+.hero-content.content .countdown-item {
+    color: var(--purple);
+    border-color: var(--purple);
+    box-shadow: 5px 5px 0px var(--purple);
+}
+
+.cabecera .hero-content .image-content {
+    width: 25%;
+}
+
+.cabecera .hero-content .info-fest .countdown {
+    margin-top: 25px;
+    margin-bottom: 0;
+}
+
+/* Pegatina giratoria */
+.pegatina {
+    position: absolute;
+    top: -28px;
+    right: 24px;
+    width: 96px;
+    height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    text-transform: uppercase;
+    border: var(--border);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+    animation: girar 14s linear infinite;
+}
+
+@keyframes girar {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.pegatina img {
+    width: 100%;
+}
+
+/* ---------- 4. LAYOUT DEL FORMULARIO (FLEXBOX) ---------- */
+.compra {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+}
+
+.compra__principal {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* ---------- 5. BLOQUES (FIELDSET) ---------- */
+.bloque {
+display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    background: var(--white);
+    border: var(--blue);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 1.5rem;
+}
+
+.bloque__titulo,
+.resumen__titulo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.4rem;
+    padding-right: 0.6rem;
+    font-family: var(--font-titles);
+    font-size: 1.5rem;
+    color: var(--blue);
+    width: 100%;
+}
+
+/* El número del paso, en un círculo */
+.bloque__titulo span,
+.resumen__titulo span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    font-size: 1.1rem;
+    background: var(--purple);
+    color: var(--white);
+    border-radius: 50%;
+}
+
+.bloque__nota {
+    font-size: 0.9rem;
+    color: var(--purple);
+}
+
+/* ---------- 6. TARJETA DE ENTRADA ---------- */
+.entrada {
+    --acento: var(--blue); /* cada variante cambia solo esta variable */
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    padding: 1.2rem 1.4rem;
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition:
+        transform var(--speed) ease,
+        box-shadow var(--speed) ease,
+        background-color var(--speed) ease;
+}
+
+.entrada--amarilla {
+    --acento: var(--blue);
+}
+.entrada--azul {
+    --acento: var(--blue);
+}
+.entrada--rosa {
+    --acento: var(--blue);
+    background-color: #d6d6fc;
+}
+
+/* Clase que añade el JavaScript cuando la cantidad es mayor que 0 */
+.entrada.is-seleccionada {
+    background: var(--acento);
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow);
+    color: #fff;
+    border-color: var(--white);
+}
+
+.entrada__info {
+    flex: 1 1 260px;
+    color: red;
+}
+
+.entrada__nombre {
+    font-size: 1.75rem;
+    margin-bottom: 0.3rem;
+    color: var(--purple);
+}
+
+.entrada__nombre small {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.entrada__descripcion {
+    color: var(--purple);
+    margin-bottom: 0.6rem;
+}
+
+.entrada.is-seleccionada .entrada__descripcion {
+    color: var(--white);
+}
+
+.entrada__precio {
+    display: inline-block;
+    padding: 0.1rem 0.6rem;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    background: var(--acento);
+    border: var(--border);
+    border-radius: var(--radius);
+    color: var(--white);
+}
+
+.entrada.is-seleccionada .entrada__precio {
+    background: var(--white);
+    color: var(--blue);
+}
+
+.entrada.is-seleccionada .entrada__info {
+    color: var(--blue);
+}
+
+.entrada.is-seleccionada .entrada__nombre {
+    color: #FFF;
+}
+
+.entrada.is-seleccionada .entrada__subtotal {
+    color: var(--white);
+    border-color: var(--white);
+}
+
+.contador__boton:disabled {
+    cursor: not-allowed;
+}
+/* Etiqueta "Top ventas" */
+.entrada__destacado {
+    position: absolute;
+    top: -10px;
+    right: 18px;
+    padding: 0.1rem 0.7rem;
+    font-weight: 700;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background-color: #d6d6fc;
+    color: var(--purple);
+    border: var(--border);
+    border-radius: 999px;
+    transform: rotate(3deg);
+}
+
+.entrada__subtotal {
+    flex-basis: 100%;
+    padding-top: 0.6rem;
+    border-top: 2px dashed var(--purple);
+    font-size: 14px;
+    color: var(--purple);
+}
+
+/* ---------- 7. CONTADOR (− 0 +) ---------- */
+.entrada__controles {
+    display: flex;
+    align-items: center;
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--white);
+    overflow: hidden;
+}
+
+.contador__boton {
+    width: 2.8rem;
+    height: 2.8rem;
+    font-family: var(--font-titles);
+    font-size: 1.4rem;
+    line-height: 1;
+    background: var(--white);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--speed) ease;
+    color: var(--purple);
+}
+
+.contador__boton:hover {
+    background: var(--purple);
+    color: var(--white);
+}
+
+.contador__boton:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    background: var(--white);
+}
+
+.contador__cantidad {
+    min-width: 3rem;
+    text-align: center;
+    font-family: var(--font-titles);
+    font-size: 1.3rem;
+    border-left: var(--border);
+    border-right: var(--border);
+    line-height: 2.8rem;
+    color: var(--purple);
+}
+
+/* ---------- 8. CAMPOS DE DATOS ---------- */
+.campos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.campo {
+    flex: 1 1 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.campo label {
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.campo input {
+    padding: 0.8rem 1rem;
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    transition:
+        box-shadow var(--speed) ease,
+        transform var(--speed) ease;
+    color: var(--blue);
+}
+
+.campo input:focus {
+    outline: none;
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow);
+}
+
+/* Clase que añade el JavaScript si el campo no es válido */
+.campo input.is-error {
+    border-color: var(--red);
+    box-shadow: 4px 4px 0 var(--red);
+}
+
+/* ---------- 9. RESUMEN ---------- */
+.resumen {
+    flex: 0 0 340px;
+    position: sticky; /* se queda visible al hacer scroll */
+    top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    padding: 1.5rem;
+    background: var(--white);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    color: var(--purple);
+}
+
+.resumen__lista {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    min-height: 3rem;
+}
+
+.resumen__lista li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-size: 0.95rem;
+}
+
+.resumen__vacio {
+    color: var(--purple);
+    font-style: italic;
+}
+
+.resumen__cuentas {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 1rem;
+    border-top: var(--border);
+}
+
+.resumen__fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+}
+
+.resumen__fila dt small {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--purple);
+}
+
+.resumen__fila dd {
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.resumen__fila--total {
+    margin-top: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    font-family: var(--font-titles);
+    font-size: 1.4rem;
+    background: var(--purple);
+    border: 1px solid var(--purple);
+    border-radius: var(--radius);
+    color: var(--white);
+}
+
+.resumen__fila--total dd {
+    font-weight: 400;
+}
+
+/* ---------- 10. BOTÓN ---------- */
+.boton {
+    width: 100%;
+    padding: 0.9rem 1.4rem;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition:
+        transform var(--speed) ease,
+        box-shadow var(--speed) ease;
+}
+
+.boton--rosa {
+    background: var(--blue);
+    color: var(--white);
+    border-color: var(--white);
+}
+
+.boton:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow);
+}
+
+/* Efecto "pulsado": el botón baja hasta tapar su sombra */
+.boton:active {
+    transform: translate(4px, 4px);
+    box-shadow: 0 0 0 var(--purple);
+}
+
+.boton:disabled {
+    background: var(--surface-2);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: var(--shadow-sm);
+    opacity: 0.6;
+}
+
+/* ---------- 11. MENSAJES ---------- */
+.mensaje:empty {
+    display: none;
+}
+
+.mensaje {
+    padding: 0.8rem 1rem;
+    font-weight: 700;
+    border: var(--border);
+    border-radius: var(--radius);
+}
+
+.mensaje--error {
+    background: var(--red);
+    color: var(--white);
+}
+
+.mensaje--ok {
+    background: var(--green);
+    color: var(--white);
+}
+
+/* ---------- 12. RESPONSIVE ---------- */
+@media (max-width: 860px) {
+    .compra {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .resumen {
+        flex-basis: auto;
+        position: static;
+    }
+}
+
+@media (max-width: 480px) {
+    .pagina {
+        width: 95%;
+    }
+
+    .cabecera,
+    .bloque,
+    .resumen {
+        padding: 1.2rem;
+    }
+
+    /* Deja sitio arriba para que la pegatina no tape la etiqueta */
+    .cabecera {
+        padding-top: 3.5rem;
+    }
+
+    .pegatina {
+        width: 72px;
+        height: 72px;
+        font-size: 0.8rem;
+        top: -22px;
+        right: 12px;
+    }
+
+    .cabecera .hero-content {
+        flex-direction: column;
+    }
+    .cabecera .hero-content .image-content {
+        width: 90%;
+        margin-bottom: 40px;
+    }
+
+    .cabecera .hero-content .info-fest {
+        width: 100%;
+    }
+
+    .cabecera .hero-content .info-fest .countdown {
+        gap: 10px;
+    }
+    .cabecera .hero-content .info-fest .countdown .countdown-item {
+        padding: 8px;
+        min-width: 75px;
+    }
+}
+
+/* Accesibilidad: sin animaciones si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
